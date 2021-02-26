@@ -1,4 +1,8 @@
-# iorder-app
+# IOrder web app
+
+Bienvenue sur le projet IOrder !
+
+Cette application a pour objectif de faciliter la prise de commande dans un établissement (Cafés, restaurant, bars...), sans avoir à attendre un serveur !
 
 ## Project setup
 ```
@@ -19,6 +23,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
