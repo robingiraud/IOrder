@@ -1,11 +1,17 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <Navbar />
+    <div id="nav" @click="isCartOpen = false">
+      <Navbar @click="isCartOpen = false" />
     </div>
-    <router-view class="router-view" />
-    <Cart v-if="isCartOpen" :isCartOpen="isCartOpen" />
-    <div class="cart-btn"><i class="bx bx-cart" @click="isCartOpen = true" /></div>
+    <div @click="isCartOpen = false">
+      <router-view class="router-view" />
+    </div>
+    <Cart :isCartOpen="isCartOpen" @close="isCartOpen = false" />
+    <div class="cart-btn" @click="isCartOpen = true">
+      <i class="bx bxs-shopping-bag">
+        <div>3</div>
+      </i>
+    </div>
   </div>
 </template>
 
@@ -58,7 +64,7 @@ html {
     color: #2c3e50;
 
     &.router-link-exact-active {
-      color: #84BCFF;
+      color: #479BFF;
     }
   }
 }
@@ -69,10 +75,37 @@ html {
 
 .cart-btn {
   position: fixed;
-  bottom: 5rem;
-  right: 5rem;
-  width: 50px;
-  height: 50px;
-  background-color: lightblue;
+  bottom: 30px;
+  right: 30px;
+  background-color: #479BFF;
+  width: 74px;
+  height: 74px;
+  box-shadow: 0 0 6px 4px rgba(132, 188, 255, 0.36);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  border-radius: 100px;
+  cursor: pointer;
+  .bx {
+    position: relative;
+    div {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: white;
+      color: #479BFF;
+      min-width: 20px;
+      min-height: 20px;
+      box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.2);
+      font-weight: bold;
+      font-size: .3em;
+      border-radius: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
 </style>
