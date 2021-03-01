@@ -27,6 +27,9 @@ export default {
     Navbar,
     Cart,
     ScanPage
+  },
+  mounted() {
+    this.$store.dispatch('checkGeolocation')
   }
 }
 </script>

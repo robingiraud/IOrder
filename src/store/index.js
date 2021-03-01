@@ -8,11 +8,13 @@ export default new Vuex.Store({
     isCartPageOpen: false,
     isScanPageOpen: false,
     activeStore: null,
+    geolocation: null
   },
   getters: {
     isCartPageOpen: state => state.isCartPageOpen,
     isScanPageOpen: state => state.isScanPageOpen,
-    activeStore: state =>state.activeStore
+    activeStore: state => state.activeStore,
+    geolocation: state => state.geolocation,
   },
   mutations: {
     openCartPage: (state) => state.isCartPageOpen = true,
@@ -21,7 +23,16 @@ export default new Vuex.Store({
     openScanPage: (state) => state.isScanPageOpen = true,
     closeScanPage: (state) => state.isScanPageOpen = false,
 
-    setActiveStore: (state, newStore) => state.activeStore = newStore
+    setActiveStore: (state, newStore) => state.activeStore = newStore,
+    checkGeolocation: (state) => {
+      // console.log('toto', state)
+      navigator.geolocation.getCurrentPosition(function(position) {
+        state.geolocation = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        }
+      })
+    },
   },
   actions: {
     openCartPage: (context) => context.commit('openCartPage'),
@@ -30,7 +41,8 @@ export default new Vuex.Store({
     openScanPage: (context) => context.commit('openScanPage'),
     closeScanPage: (context) => context.commit('closeScanPage'),
 
-    setActiveStore: ({ commit }, payload) => commit('setActiveStore', payload)
+    setActiveStore: ({ commit}, payload) => commit('setActiveStore', payload),
+    checkGeolocation: ({ commit}) => commit('checkGeolocation'),
   },
   modules: {}
 })

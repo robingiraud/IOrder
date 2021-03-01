@@ -17,14 +17,14 @@
       Autour de moi
     </h3>
     <div class="stores">
-      <div v-for="(store, index) in stores" :key="index">
+      <div v-for="(company, index) in companies" :key="index">
         <div class="store">
-          <img class="img-container" src="../../public/img/restaurant2.jpg" alt="">
+          <img class="img-container" :src="company.img" alt="">
           <div class="store-info">
-            <p class="store-type"><span><i class="bx bx-restaurant" /> ITALIEN</span><b>à 380m</b></p>
-            <h2>{{ store.name }}</h2>
+            <p class="store-type"><span><i class="bx bx-restaurant" /> ITALIEN</span><b>à {{ company.meters }}m</b></p>
+            <h2>{{ company.name }}</h2>
             <p class="store-description">
-              {{ store.description }}
+              {{ company.description }}
             </p>
           </div>
         </div>
@@ -37,17 +37,31 @@
 <script>
 // @ is an alias to /src
 import axios from "axios";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'Home',
   data () {
     return {
       api_url: 'http://192.168.1.11:8000/',
-      stores: []
+      companies: []
     }
   },
+  computed: {
+    ...mapGetters(['geolocation'])
+  },
   mounted () {
-    axios.get( this.api_url + 'api/companies').then(response => this.stores = response.data.data).catch(e => console.error(e))
+    axios.get( this.api_url + 'api/companies')
+        .then(response => {
+          response.data.data.forEach(company => {
+            company.meters = (Math.random() * (800 - 30) + 30).toFixed(0)
+            company.img = company.meters%2 === 1 ? '/img/restaurant2.jpg' : '/img/restaurant.jpg'
+          })
+          this.companies = response.data.data.sort(function(a, b) {
+            return a.meters - b.meters;
+          })
+        })
+        .catch(e => console.error(e))
   }
 }
 </script>
