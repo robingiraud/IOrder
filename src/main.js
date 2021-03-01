@@ -6,6 +6,11 @@ import store from './store'
 import 'boxicons'
 import 'boxicons/css/boxicons.min.css'
 
+import axios from "axios";
+Vue.use(axios)
+
+import VueQrcodeReader from "vue-qrcode-reader";
+Vue.use(VueQrcodeReader);
 
 Vue.config.productionTip = false
 

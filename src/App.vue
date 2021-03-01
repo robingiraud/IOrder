@@ -1,14 +1,15 @@
 <template>
   <div id="app">
-    <div id="nav" @click="isCartOpen = false">
-      <Navbar @click="isCartOpen = false" />
+    <div id="nav">
+      <Navbar @click="$store.dispatch('closeCartPage')" />
     </div>
-    <div @click="isCartOpen = false">
+    <div @click="$store.dispatch('closeCartPage')">
       <router-view class="router-view" />
     </div>
-    <Cart :isCartOpen="isCartOpen" @close="isCartOpen = false" />
-    <div class="cart-btn" @click="isCartOpen = true">
-      <i class="bx bxs-shopping-bag">
+    <Cart />
+    <ScanPage />
+    <div class="cart-btn" @click="$store.dispatch('openCartPage')">
+      <i class="bx bxs-basket">
         <div>3</div>
       </i>
     </div>
@@ -18,21 +19,14 @@
 <script>
 import Navbar from "@/components/Navbar"
 import Cart from "@/components/Cart.vue"
+import ScanPage from "@/components/ScanPage.vue"
 import 'boxicons'
+
 export default {
   components: {
     Navbar,
-    Cart
-  },
-  computed: {
-    // isCartOpen: function () {
-      // return this.$store.getters.isOpen
-    // }
-  },
-  data () {
-    return {
-      isCartOpen: false
-    }
+    Cart,
+    ScanPage
   }
 }
 </script>
@@ -45,7 +39,7 @@ html {
   }
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Poppins", Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

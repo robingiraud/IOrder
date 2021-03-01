@@ -6,7 +6,7 @@
     </header>
     <p>Scanne le QR code de l’étalissement et envoie leurs directement ta commande !</p>
     <div class="scan-btn-container">
-      <div class="ellipse1">
+      <div class="ellipse1" @click="$store.dispatch('openScanPage')">
         <div class="ellipse2">
           <img src="../../public/img/illustrations/qr-icon.svg" alt="QR icon">
         </div>
@@ -17,26 +17,18 @@
       Autour de moi
     </h3>
     <div class="stores">
-      <div class="store">
-        <img class="img-container" src="../../public/img/restaurant2.jpg" alt="">
-        <div class="store-info">
-          <p class="store-type"><span><i class="bx bx-restaurant" /> ITALIEN</span><b>à 380m</b></p>
-          <h2>La compagnie de la Rosa</h2>
-          <p class="store-description">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, culpa distinctio, fuga fugiat impedit ipsum, itaque iusto laborum numquam perspiciatis placeat quasi quibusdam reiciendis repellendus rerum tempora totam velit veritatis.
-          </p>
+      <div v-for="(store, index) in stores" :key="index">
+        <div class="store">
+          <img class="img-container" src="../../public/img/restaurant2.jpg" alt="">
+          <div class="store-info">
+            <p class="store-type"><span><i class="bx bx-restaurant" /> ITALIEN</span><b>à 380m</b></p>
+            <h2>{{ store.name }}</h2>
+            <p class="store-description">
+              {{ store.description }}
+            </p>
+          </div>
         </div>
-      </div>
-      <hr>
-      <div class="store">
-        <img class="img-container" src="../../public/img/restaurant.jpg" alt="">
-        <div class="store-info">
-          <p class="store-type"><span><i class="bx bx-restaurant" /> PIZZERIA</span><b>à 800m</b></p>
-          <h2>Café de la paix</h2>
-          <p class="store-description">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, culpa distinctio, fuga fugiat impedit ipsum, itaque iusto laborum numquam perspiciatis placeat quasi quibusdam reiciendis repellendus rerum tempora totam velit veritatis.
-          </p>
-        </div>
+        <hr>
       </div>
     </div>
   </div>
@@ -44,10 +36,18 @@
 
 <script>
 // @ is an alias to /src
+import axios from "axios";
 
 export default {
   name: 'Home',
-  components: {
+  data () {
+    return {
+      api_url: 'http://192.168.1.11:8000/',
+      stores: []
+    }
+  },
+  mounted () {
+    axios.get( this.api_url + 'api/companies').then(response => this.stores = response.data.data).catch(e => console.error(e))
   }
 }
 </script>

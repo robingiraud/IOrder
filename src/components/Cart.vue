@@ -1,6 +1,6 @@
 <template>
-  <div id="cart" :class="{'open': isCartOpen}">
-    <header @click="$emit('close')">
+  <div id="cart" :class="{'open': isCartPageOpen}">
+    <header @click="$store.dispatch('closeCartPage')">
       <h3>Mon panier</h3>
       <i class="bx bx-caret-down-circle" />
     </header>
@@ -26,10 +26,12 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: 'Cart',
-  props: {
-    isCartOpen: Boolean
+  computed: {
+    ...mapGetters(['isCartPageOpen', 'isScanPageOpen',])
   }
 }
 </script>
@@ -67,7 +69,7 @@ export default {
   }
 
   .cart-content {
-    height: calc(100% - 80px);
+    height: calc(100% - 110px);
     overflow: scroll;
 
     .cart-item {
