@@ -7,24 +7,30 @@ export default new Vuex.Store({
   state: {
     isCartPageOpen: false,
     isScanPageOpen: false,
+    activeStore: null,
   },
   getters: {
     isCartPageOpen: state => state.isCartPageOpen,
     isScanPageOpen: state => state.isScanPageOpen,
+    activeStore: state =>state.activeStore
   },
   mutations: {
     openCartPage: (state) => state.isCartPageOpen = true,
     closeCartPage: (state) => state.isCartPageOpen = false,
 
     openScanPage: (state) => state.isScanPageOpen = true,
-    closeScanPage: (state) => state.isScanPageOpen = false
+    closeScanPage: (state) => state.isScanPageOpen = false,
+
+    setActiveStore: (state, newStore) => state.activeStore = newStore
   },
   actions: {
     openCartPage: (context) => context.commit('openCartPage'),
     closeCartPage: (context) => context.commit('closeCartPage'),
 
     openScanPage: (context) => context.commit('openScanPage'),
-    closeScanPage: (context) => context.commit('closeScanPage')
+    closeScanPage: (context) => context.commit('closeScanPage'),
+
+    setActiveStore: ({ commit }, payload) => commit('setActiveStore', payload)
   },
   modules: {}
 })

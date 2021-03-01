@@ -2,7 +2,6 @@
   <div id="scan-page" :class="{'open': isScanPageOpen}">
     <header @click="$store.dispatch('closeScanPage')">
       <i class="bx bx-chevron-left" style="font-size: 2.5em" />
-      <h4>{{ title.name }}</h4>
     </header>
     <section class="scan-content">
       <QrcodeStream @decode="onDecode" />
@@ -21,14 +20,14 @@ export default {
   computed: {
     ...mapGetters(['isCartPageOpen', 'isScanPageOpen',])
   },
-  data () {
-    return {
-      title: ''
-    }
-  },
   methods: {
     onDecode (decodedString) {
-      this.title = JSON.parse(decodedString)
+      // this.title = JSON.parse(decodedString)
+      setTimeout(() => {
+        this.$store.dispatch('closeScanPage')
+        this.$store.dispatch('setActiveStore', JSON.parse(decodedString))
+        this.$router.push({ path: 'store' })
+      }, 500)
     }
   }
 }
