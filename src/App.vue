@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <Navbar @click="$store.dispatch('closeCartPage')" />
-    </div>
+    <Navbar @click="$store.dispatch('closeCartPage')" />
     <div @click="$store.dispatch('closeCartPage')">
       <router-view class="router-view" />
     </div>
-    <Cart />
     <ScanPage />
-    <div class="cart-btn" @click="$store.dispatch('openCartPage')">
+    <div class="cart-btn" @click="openCart">
       <i class="bx bxs-basket">
         <div>3</div>
       </i>
     </div>
+    <vue-bottom-sheet ref="cart" :rounded="true" effect="fx-default" max-height="70%">
+      <Cart />
+    </vue-bottom-sheet>
   </div>
 </template>
 
@@ -27,6 +27,14 @@ export default {
     Navbar,
     Cart,
     ScanPage
+  },
+  methods: {
+    openCart() {
+      this.$refs.cart.open();
+    },
+    closeCart() {
+      this.$refs.cart.close();
+    }
   },
   mounted() {
     this.$store.dispatch('checkGeolocation')
@@ -52,21 +60,8 @@ html {
   overflow: scroll;
 }
 
-#nav {
-  padding: 30px;
-  margin: 0 1rem;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #479BFF;
-    }
-  }
-}
-
 .router-view {
+  margin-top: 80px;
   padding: 25px;
 }
 

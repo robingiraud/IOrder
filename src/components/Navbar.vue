@@ -15,7 +15,24 @@ export default {
 
 <style lang="scss" scoped>
 #navbar {
+  position: fixed;
+  width: 100%;
+  height: 80px;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  background-color: white;
+  z-index: 10;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #479BFF;
+    }
+  }
 }
 </style>

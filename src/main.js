@@ -12,6 +12,10 @@ Vue.use(axios)
 import VueQrcodeReader from "vue-qrcode-reader";
 Vue.use(VueQrcodeReader);
 
+import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+import 'vue-swipe-actions/dist/vue-swipe-actions.css';
+Vue.use(VueBottomSheet);
+
 Vue.config.productionTip = false
 
 new Vue({

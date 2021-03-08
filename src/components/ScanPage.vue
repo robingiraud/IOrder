@@ -1,7 +1,8 @@
 <template>
   <div id="scan-page" :class="{'open': isScanPageOpen}">
-    <header @click="$store.dispatch('closeScanPage')">
+    <header @click="$store.dispatch('closeScanPage'); error=''">
       <i class="bx bx-chevron-left" style="font-size: 2.5em" />
+      <h4 style="color: lightcoral; margin: 0" v-if="error">{{ error }}</h4>
     </header>
     <section class="scan-content">
       <QrcodeStream @decode="onDecode" />
@@ -12,6 +13,7 @@
 <script>
 import {mapGetters} from "vuex";
 import { QrcodeStream } from 'vue-qrcode-reader'
+import axios from "axios";
 export default {
   name: 'Cart',
   components: {
@@ -20,14 +22,27 @@ export default {
   computed: {
     ...mapGetters(['isCartPageOpen', 'isScanPageOpen',])
   },
+  data () {
+    return {
+      api_url: 'http://192.168.1.11:8000/',
+      error: ''
+    }
+  },
   methods: {
     onDecode (decodedString) {
-      // this.title = JSON.parse(decodedString)
-      setTimeout(() => {
-        this.$store.dispatch('closeScanPage')
-        this.$store.dispatch('setActiveStore', JSON.parse(decodedString))
-        this.$router.push({ path: 'store' })
-      }, 500)
+      axios.get( this.api_url + 'api/company/' + JSON.parse(decodedString).id)
+          .then(response => {
+            if (!response.data) this.error = "Cet établissement n'éxiste pas !";
+            else {
+              this.$store.dispatch('setActiveStore', response.data)
+              this.$store.dispatch('closeScanPage')
+              if (this.$router.currentRoute !== 'store') {
+                this.$router.push({ path: '/store' })
+              }
+            }
+            console.log(this.$router.currentRoute)
+          })
+          .catch(e => console.error(e))
     }
   }
 }
@@ -38,7 +53,7 @@ export default {
   position: fixed;
   top: 0;
   right: -100vw;
-  z-index: 2;
+  z-index: 11;
   width: 100%;
   height: 100%;
   background-color: white;

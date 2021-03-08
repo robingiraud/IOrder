@@ -1,85 +1,183 @@
 <template>
-  <div id="cart" :class="{'open': isCartPageOpen}">
+  <div id="cart">
     <header @click="$store.dispatch('closeCartPage')">
-      <h3>Mon panier</h3>
-      <i class="bx bx-caret-down-circle" />
+      <h3 style="font-weight: normal">Mon panier (7)</h3>
     </header>
-    <div class="total">
-      <div>Total <b>33.80 €</b></div>
-    </div>
-    <section class="cart-content">
-      <div class="cart-item"><h3>Item 1</h3></div>
-      <div class="cart-item"><h3>Item 2</h3></div>
-      <div class="cart-item"><h3>Item 3</h3></div>
-      <div class="cart-item"><h3>Item 4</h3></div>
-      <div class="cart-item"><h3>Item 5</h3></div>
-      <div class="cart-item"><h3>Item 6</h3></div>
-      <div class="cart-item"><h3>Item 7</h3></div>
-      <div class="cart-item"><h3>Item 8</h3></div>
-      <div class="cart-item"><h3>Item 9</h3></div>
-      <div class="cart-item"><h3>Item 10</h3></div>
-      <div class="cart-item"><h3>Item 11</h3></div>
-      <div class="cart-item"><h3>Item 12</h3></div>
-      <div class="cart-item"><h3>Item 13</h3></div>
-    </section>
+    <SwipeList :items="products" class="cart-content">
+      <template v-slot="props">
+        <div class="cart-item">
+          <img class="img-container" src="../../public/img/burger.jpg" alt="Burger">
+          <div class="product-content">
+            <div class="product-title">
+              <h4>{{ props.item.title }}</h4>
+              <p class="product-price">8,99 €</p>
+            </div>
+            <div class="product-description">
+              Graines de sésames, salade, tomates, oignons frits, steack haché 250g, cheddar, sauce burger
+            </div>
+          </div>
+          <div class="product-qty">
+            x2
+          </div>
+        </div>
+      </template>
+      <template v-slot:right>
+        <div class="swipeout-action red" title="remove">
+          <i class="bx bx-trash"></i>
+        </div>
+      </template>
+    </SwipeList>
+
+    <footer>
+      Valider la commande
+      <div class="dot" />
+      <b>33.80 €</b>
+    </footer>
   </div>
 </template>
 
 <script>
 import {mapGetters} from "vuex";
-
+import { SwipeList } from 'vue-swipe-actions';
 export default {
   name: 'Cart',
+  components: {
+    SwipeList
+  },
   computed: {
     ...mapGetters(['isCartPageOpen', 'isScanPageOpen',])
-  }
+  },data() {
+    return {
+      enabled: true,
+      products: [
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+        {title: "Some title"},
+      ]
+    };
+  },
+  methods: {
+
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 #cart {
-  position: fixed;
-  bottom: -70vh;
-  z-index: 2;
-  width: 100%;
-  height: 70vh;
-  background-color: white;
-  border-top-left-radius: 60px;
-  border-top-right-radius: 60px;
-  box-shadow: 0 0 7px rgba(0, 0, 0, 0.09);
-  transition: bottom .5s;
-  &.open {
-    bottom: 0;
-  }
-
   header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .5rem 3rem .5rem 3rem;
-  }
-
-  .total {
+    padding: 0 1rem;
     width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    div {
-      margin-right: 1.2rem;
-    }
+    box-sizing: border-box;
+    z-index: 2;
+    position: fixed;
+    height: 50px;
+    background-color: white;
+    top: 30px;
   }
 
   .cart-content {
-    height: calc(100% - 110px);
-    overflow: scroll;
-
+    margin-top: 50px;
+    margin-bottom: 100px;
     .cart-item {
       margin: .5rem 1rem;
       background-color: #F8F8F8;
       display: flex;
       align-items: center;
-      padding: 0 1rem;
+      padding: .5rem .8rem;
       border-radius: 15px;
-      height: 80px;
+
+      .img-container {
+        border-radius: 20px;
+        margin-left: -20px;
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        filter: drop-shadow(0px 2px 6px rgba(0, 0, 0, 0.2));
+
+      }
+      .product-content {
+        padding: 0 1rem;
+      }
+      .product-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: .5rem;
+        h4, p {
+          margin: 0;
+        }
+        h4 {
+          font-size: .8em;
+        }
+        .product-price {
+          color: #479BFF;
+          font-weight: bold;
+        }
+      }
+      .product-description {
+        display: flex;
+        text-align: left;
+        font-weight: 100;
+        font-size: .55em;
+        color: darkgrey;
+      }
+    }
+    .swipeout-action {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: lightcoral;
+      color: white;
+      font-size: 2em;
+      margin: .6rem 0;
+      margin-right: 1rem;
+      border-radius: 6px;
+      width: 70px;
+    }
+  }
+
+  footer {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    height: 100px;
+    background-color: white;
+    z-index: 3;
+    bottom: 0;
+    color: #479BFF;
+    // font-weight: bold;
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50px;
+      margin: 0 1rem;
+      background-color: #479BFF;;
     }
   }
 }
