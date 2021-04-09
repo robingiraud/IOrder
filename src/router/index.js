@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Store from '../views/Store.vue'
 import Receipts from '../views/Receipts.vue'
+import ProfilePage from '../views/ProfilePage.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/receipts',
     name: 'Receipts',
     component: Receipts
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: ProfilePage
   }
 ]
 
