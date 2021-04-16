@@ -12,9 +12,9 @@
 </template>
 
 <script>
+import axios from 'axios';
 import {mapGetters} from "vuex";
 import { QrcodeStream } from 'vue-qrcode-reader'
-// import axios from "axios";
 export default {
   name: 'Cart',
   components: {
@@ -25,14 +25,13 @@ export default {
   },
   data () {
     return {
-      api_url: 'http://192.168.0.159:8000/',
       error: ''
     }
   },
   methods: {
     onDecode (decodedString) {
       console.log(decodedString)
-      /* axios.get( this.api_url + 'api/companies/' + JSON.parse(decodedString).id)
+      axios.get( 'https://iorder-api.herokuapp.com/api/companies/' + JSON.parse(decodedString).id)
           .then(response => {
             if (!response.data) this.error = "Cet établissement n'éxiste pas !";
             else {
@@ -44,7 +43,7 @@ export default {
             }
             console.log(this.$router.currentRoute)
           })
-          .catch(e => console.error(e)) */
+          .catch(e => console.error(e))
     }
   }
 }
