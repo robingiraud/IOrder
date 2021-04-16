@@ -2,21 +2,21 @@
   <div class="home">
     <header>
       <h1>Trouve un établissement</h1>
-      <img src="../../public/img/illustrations/location.svg" alt="Location icon">
+      <img src="../../../public/img/illustrations/location.svg" alt="Location icon">
     </header>
     <p>Scanne le QR code de l’étalissement et envoie leurs directement ta commande !</p>
     <div class="scan-btn-container">
-      <div class="ellipse1" @click="$store.dispatch('openScanPage')">
+      <div class="ellipse1" @click="openScanPage">
         <div class="ellipse2">
-          <img src="../../public/img/illustrations/qr-icon.svg" alt="QR icon">
+          <img src="../../../public/img/illustrations/qr-icon.svg" alt="QR icon">
         </div>
       </div>
     </div>
-    <h3>
-      <img src="../../public/img/illustrations/pin.svg" alt="Pin icon">
+    <h3 v-if="isAuthenticated">
+      <img src="../../../public/img/illustrations/pin.svg" alt="Pin icon">
       Autour de moi
     </h3>
-    <div class="stores">
+    <div class="stores" v-if="isAuthenticated">
       <div v-for="(company, index) in companies" :key="index">
         <div class="store">
           <img class="img-container" :src="company.img" alt="">
@@ -43,21 +43,33 @@ export default {
   name: 'Home',
   data () {
     return {
-      api_url: 'http://192.168.1.16:8000/',
+      api_url: 'http://192.168.0.159:8000/',
       companies: []
     }
   },
   computed: {
-    ...mapGetters(['geolocation'])
+    ...mapGetters({
+      geolocation: 'geolocation',
+      isAuthenticated: 'auth/isAuthenticated'
+    })
+  },
+  methods: {
+    openScanPage () {
+      if (this.isAuthenticated) {
+        this.$store.dispatch('openScanPage')
+      } else {
+        this.$router.push('/login')
+      }
+    }
   },
   mounted () {
     axios.get( this.api_url + 'api/companies')
         .then(response => {
-          response.data.data.forEach(company => {
+          response.data.forEach(company => {
             company.meters = (Math.random() * (800 - 30) + 30).toFixed(0)
             company.img = company.meters%2 === 1 ? '/img/restaurant2.jpg' : '/img/restaurant.jpg'
           })
-          this.companies = response.data.data.sort(function(a, b) {
+          this.companies = response.data.sort(function(a, b) {
             return a.meters - b.meters;
           })
         })

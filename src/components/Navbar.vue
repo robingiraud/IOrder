@@ -8,8 +8,15 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated'
+    })
+  },
 }
 </script>
 
@@ -17,7 +24,7 @@ export default {
 #navbar {
   position: fixed;
   width: 100%;
-  height: 80px;
+  height: 60px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;

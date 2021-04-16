@@ -3,6 +3,7 @@
     <header @click="$store.dispatch('closeScanPage'); error=''">
       <i class="bx bx-chevron-left" style="font-size: 2.5em" />
       <h4 style="color: lightcoral; margin: 0" v-if="error">{{ error }}</h4>
+      <h4 style="margin: 0" v-else>Scannez un code QR</h4>
     </header>
     <section class="scan-content">
       <QrcodeStream @decode="onDecode" />
@@ -13,7 +14,7 @@
 <script>
 import {mapGetters} from "vuex";
 import { QrcodeStream } from 'vue-qrcode-reader'
-import axios from "axios";
+// import axios from "axios";
 export default {
   name: 'Cart',
   components: {
@@ -24,13 +25,14 @@ export default {
   },
   data () {
     return {
-      api_url: 'http://192.168.1.16:8000/',
+      api_url: 'http://192.168.0.159:8000/',
       error: ''
     }
   },
   methods: {
     onDecode (decodedString) {
-      axios.get( this.api_url + 'api/company/' + JSON.parse(decodedString).id)
+      console.log(decodedString)
+      /* axios.get( this.api_url + 'api/companies/' + JSON.parse(decodedString).id)
           .then(response => {
             if (!response.data) this.error = "Cet établissement n'éxiste pas !";
             else {
@@ -42,7 +44,7 @@ export default {
             }
             console.log(this.$router.currentRoute)
           })
-          .catch(e => console.error(e))
+          .catch(e => console.error(e)) */
     }
   }
 }

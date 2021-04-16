@@ -21,12 +21,18 @@ import Navbar from "@/components/Navbar"
 import Cart from "@/components/Cart.vue"
 import ScanPage from "@/components/ScanPage.vue"
 import 'boxicons'
+import {mapGetters} from "vuex";
 
 export default {
   components: {
     Navbar,
     Cart,
     ScanPage
+  },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated'
+    })
   },
   methods: {
     openCart() {
@@ -36,6 +42,17 @@ export default {
       this.$refs.cart.close();
     }
   },
+  /* created: function () {
+    this.axios.interceptors.response.use(undefined, function (err) {
+      return new Promise(function (resolve, reject) {
+        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+          this.$store.dispatch(AUTH_LOGOUT)
+          // Redirect to login
+        }
+        throw err;
+      })
+    })
+  }, */
   mounted() {
     this.$store.dispatch('checkGeolocation')
   }
