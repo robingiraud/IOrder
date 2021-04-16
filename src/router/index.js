@@ -6,6 +6,7 @@ import Home from '../views/pages/Home.vue'
 import Store from '../views/Store.vue'
 import Receipts from '../views/Receipts.vue'
 import ProfilePage from '../views/pages/ProfilePage.vue'
+import Register from '@/views/auth/Register.vue';
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   },
   {
     path: '/',

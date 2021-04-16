@@ -1,28 +1,20 @@
 <template>
   <div>
-    <form class="login" @submit.prevent="login">
-      <h1>Connectez-vous</h1>
+    <form class="register" @submit.prevent="register">
+      <h1>Créer un compte</h1>
       <div style="display: flex; flex-direction: column">
-        <span v-if="authStatus === 'error'">Ces identifiants n'existent pas!</span>
-        <input style="margin-top: .6rem" id="emai" required v-model="email" type="email" placeholder="Email"/>
-        <input style="margin-top: .6rem" id="password" required v-model="password" type="password" placeholder="Mot de passe"/>
+        <input style="font-size: 1em; margin-top: .6rem" id="email" required v-model="email" type="email" placeholder="Email"/>
+        <input style="font-size: 1em; margin-top: .6rem" id="password" required v-model="password" type="password" placeholder="Mot de passe"/>
       </div>
-      <button style="margin-top: .6rem" type="submit">Connexion</button>
-      <div style="font-size: .6em; margin-top: .6rem">Vous n'êtes pas encore inscrit ? <u>Créer un compte</u></div>
+      <button style="margin-top: .6rem" type="submit">Créer un compte</button>
+      <div style="font-size: .6em; margin-top: .6rem">Vous êtes déjà inscrit ? <u @click="$router.push('/login')">Connectez-vous</u></div>
     </form>
   </div>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
-
 export default {
-  name: "Login.vue",
-  computed: {
-    ...mapGetters({
-      authStatus: 'auth/authStatus'
-    })
-  },
+  name: "Register.vue",
   data () {
     return {
       email: '',
@@ -31,13 +23,13 @@ export default {
     }
   },
   methods: {
-    login: function () {
-      const { email, password } = this
-      this.$store.dispatch('auth/AUTH_REQUEST', { email, password }).then(() => {
-        if (this.authStatus !== 'error') {
-          this.$router.push('/')
-        }
-      })
+    register: function () {
+      // const { email, password } = this
+      // this.$store.dispatch('auth/AUTH_REQUEST', { email, password }).then(() => {
+        // if (this.authStatus !== 'error') {
+          // this.$router.push('/')
+        // }
+      // })
     }
   }
 }
