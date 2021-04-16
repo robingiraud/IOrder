@@ -27,7 +27,7 @@ const actions = {
             localStorage.removeItem('user-token')
         })
     },
-    AUTH_REGISTER: ({commit, dispatch}, user) => {
+    AUTH_REGISTER: ({commit}, user) => {
         commit('AUTH_REQUEST')
         return axios.post('/api/auth/register', {
             name: user.name,
@@ -36,9 +36,10 @@ const actions = {
             password_confirmation: user.password_confirm
         }).then(response => {
             const token = response.data.access_token
+            const user = response.data.user
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
             commit('AUTH_SUCCESS', token)
-            dispatch('USER_REQUEST')
+            commit('USER_SUCCESS', user)
         }).catch(err => {
             commit('AUTH_ERROR', err)
             localStorage.removeItem('user-token')
