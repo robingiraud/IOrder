@@ -14,7 +14,7 @@ const getters = {
 const actions = {
     AUTH_REQUEST: ({commit, dispatch}, user) => {
         commit('AUTH_REQUEST')
-        return axios.post('http://192.168.0.159:8000/api/auth/login', {
+        return axios.post('/api/auth/login', {
             email: user.email,
             password: user.password
         }).then(response => {
@@ -28,13 +28,13 @@ const actions = {
         })
     },
     AUTH_LOGOUT: ({commit}) => {
-        return axios.get('http://192.168.0.159:8000/api/auth/logout').then(() => {
+        return axios.get('/api/auth/logout').then(() => {
             commit('AUTH_LOGOUT')
             localStorage.removeItem('user-token')
         })
     },
     USER_REQUEST: ({commit}) => {
-        return axios.get('http://192.168.0.159:8000/api/auth/user').then(response => {
+        return axios.get('/api/auth/user').then(response => {
             commit('USER_SUCCESS', response.data)
         })
     }

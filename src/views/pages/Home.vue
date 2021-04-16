@@ -43,7 +43,7 @@ export default {
   name: 'Home',
   data () {
     return {
-      api_url: 'http://192.168.0.159:8000/',
+      api_url: process.env.API_URL,
       companies: []
     }
   },
@@ -63,7 +63,7 @@ export default {
     }
   },
   mounted () {
-    axios.get( this.api_url + 'api/companies')
+    axios.get( '/api/companies')
         .then(response => {
           response.data.forEach(company => {
             company.meters = (Math.random() * (800 - 30) + 30).toFixed(0)
