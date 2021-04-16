@@ -5,7 +5,7 @@
       <router-view class="router-view" />
     </div>
     <ScanPage />
-    <div class="cart-btn" @click="openCart">
+    <div class="cart-btn" @click="openCart" v-if="isAuthenticated">
       <i class="bx bxs-basket">
         <div>3</div>
       </i>

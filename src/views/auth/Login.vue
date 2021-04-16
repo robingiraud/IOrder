@@ -3,6 +3,7 @@
     <form class="login" @submit.prevent="login">
       <h1>Connectez-vous</h1>
       <div style="display: flex; flex-direction: column">
+        <span v-if="authStatus === 'error'">Ces identifiants n'existent pas!</span>
         <input style="margin-top: .6rem" id="emai" required v-model="email" type="email" placeholder="Email"/>
         <input style="margin-top: .6rem" id="password" required v-model="password" type="password" placeholder="Mot de passe"/>
       </div>
@@ -13,19 +14,29 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "Login.vue",
+  computed: {
+    ...mapGetters({
+      authStatus: 'auth/authStatus'
+    })
+  },
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      error: '',
     }
   },
   methods: {
     login: function () {
       const { email, password } = this
       this.$store.dispatch('auth/AUTH_REQUEST', { email, password }).then(() => {
-        this.$router.push('/')
+        if (this.authStatus !== 'error') {
+          this.$router.push('/')
+        }
       })
     }
   }
