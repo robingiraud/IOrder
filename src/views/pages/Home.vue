@@ -117,7 +117,14 @@ export default {
         border-radius: 100px;
         background: #FFFFFF;
         box-shadow: 0 0 9px rgba(132, 188, 255, 0.2);
+        cursor: pointer;
+        &:hover {
+          img {
+            transform: scale(1.2, 1.2) rotate3d(0, 3, 3, 3deg);
+          }
+        }
         img {
+          transition: all .3s;
           margin: .4rem 0;
           height: 40%;
         }

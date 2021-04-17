@@ -1,5 +1,5 @@
 <template>
-  <div id="scan-page" :class="{'open': isScanPageOpen}">
+  <div id="scan-page" :class="{'open': isScanPageOpen}" v-if="isScanPageOpen">
     <header @click="$store.dispatch('closeScanPage'); error=''">
       <i class="bx bx-chevron-left" style="font-size: 2.5em" />
       <h4 style="color: lightcoral; margin: 0" v-if="error">{{ error }}</h4>

@@ -29,16 +29,25 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
-  background-color: white;
+  padding: 0;
+  background-color: #f8f8f8;
   z-index: 10;
 
   a {
     font-weight: bold;
     color: #2c3e50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    height: 100%;
+    text-decoration: none;
+    &:hover {
+      background-color: #fcfcfc;
+    }
 
     &.router-link-exact-active {
-      color: #479BFF;
+      color: #84BCFF;
     }
   }
 }

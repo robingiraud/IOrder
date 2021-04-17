@@ -10,7 +10,7 @@
         <div>3</div>
       </i>
     </div>
-    <vue-bottom-sheet ref="cart" :rounded="true" effect="fx-default" max-height="70%">
+    <vue-bottom-sheet ref="cart" :rounded="true" effect="fx-default" max-height="70%" max-width="100%">
       <Cart />
     </vue-bottom-sheet>
   </div>
@@ -86,7 +86,7 @@ html {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: #479BFF;
+  background-color: #84BCFF;
   width: 74px;
   height: 74px;
   box-shadow: 0 0 6px 4px rgba(132, 188, 255, 0.36);
@@ -104,7 +104,7 @@ html {
       top: -5px;
       right: -5px;
       background-color: white;
-      color: #479BFF;
+      color: #84BCFF;
       min-width: 20px;
       min-height: 20px;
       box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.2);

@@ -133,7 +133,7 @@ export default {
           font-size: .8em;
         }
         .product-price {
-          color: #479BFF;
+          color: #84BCFF;
           font-weight: bold;
         }
       }
@@ -166,18 +166,17 @@ export default {
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
-    height: 100px;
-    background-color: white;
+    height: 55px;
+    background-color: #84BCFF;
     z-index: 3;
     bottom: 0;
-    color: #479BFF;
-    // font-weight: bold;
+    color: white;
     .dot {
       width: 8px;
       height: 8px;
       border-radius: 50px;
       margin: 0 1rem;
-      background-color: #479BFF;;
+      background-color: #84BCFF;
     }
   }
 }
