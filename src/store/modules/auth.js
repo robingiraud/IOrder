@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const state = {
-    token: localStorage.getItem('user-token') || '',
+    token: localStorage.getItem('userToken') || '',
     status: '',
     user: {}
 }
@@ -13,14 +13,6 @@ const getters = {
 }
 
 const actions = {
-    CHECK_TOKEN: ({commit, dispatch}) => {
-        const userToken = localStorage.getItem('userToken')
-        if (userToken !== null) {
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + userToken
-            dispatch('USER_REQUEST')
-            commit('AUTH_SUCCESS', userToken)
-        }
-    },
     AUTH_REQUEST: ({commit, dispatch}, user) => {
         commit('AUTH_REQUEST')
         return axios.post('/api/auth/login', {

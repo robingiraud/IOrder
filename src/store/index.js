@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from '@/store/modules/auth'
+import cart from '@/store/modules/cart'
 
 Vue.use(Vuex)
 
@@ -45,6 +46,7 @@ export default new Vuex.Store({
     checkGeolocation: ({ commit}) => commit('checkGeolocation'),
   },
   modules: {
-    auth: auth
+    auth: auth,
+    cart: cart
   }
 })

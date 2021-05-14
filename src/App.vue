@@ -7,7 +7,7 @@
     <ScanPage />
     <div class="cart-btn" @click="openCart" v-if="isAuthenticated">
       <i class="bx bxs-basket">
-        <div>3</div>
+        <span>3</span>
       </i>
     </div>
     <vue-bottom-sheet ref="cart" :rounded="true" effect="fx-default" max-height="70%" max-width="100%">
@@ -22,6 +22,7 @@ import Cart from "@/components/Cart.vue"
 import ScanPage from "@/components/ScanPage.vue"
 import 'boxicons'
 import {mapGetters} from "vuex";
+import axios from "axios";
 
 export default {
   components: {
@@ -42,19 +43,13 @@ export default {
       this.$refs.cart.close();
     }
   },
-  /* created: function () {
-    this.axios.interceptors.response.use(undefined, function (err) {
-      return new Promise(function (resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          this.$store.dispatch(AUTH_LOGOUT)
-          // Redirect to login
-        }
-        throw err;
-      })
-    })
-  }, */
   mounted() {
-    this.$store.dispatch('auth/CHECK_TOKEN')
+    const userToken = localStorage.getItem('userToken')
+    if (userToken !== null) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + userToken
+      this.$store.dispatch('USER_REQUEST')
+    }
+
     this.$store.dispatch('checkGeolocation')
   }
 }
@@ -100,7 +95,7 @@ html {
   cursor: pointer;
   .bx {
     position: relative;
-    div {
+    span {
       position: absolute;
       top: -5px;
       right: -5px;
