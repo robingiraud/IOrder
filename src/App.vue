@@ -22,7 +22,6 @@ import Cart from "@/components/Cart.vue"
 import ScanPage from "@/components/ScanPage.vue"
 import 'boxicons'
 import {mapGetters} from "vuex";
-import axios from "axios";
 
 export default {
   components: {
@@ -44,13 +43,9 @@ export default {
     }
   },
   mounted() {
-    const userToken = localStorage.getItem('userToken')
-    if (userToken !== null) {
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + userToken
-      this.$store.dispatch('USER_REQUEST')
+    if (localStorage.getItem('userToken') !== null) {
+      console.log(this.$store.dispatch('auth/USER_REQUEST'))
     }
-
-    this.$store.dispatch('checkGeolocation')
   }
 }
 </script>

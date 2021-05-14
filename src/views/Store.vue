@@ -11,6 +11,14 @@
         Bienvenue chez...
       </h5>
       <h4>{{ activeStore.name }}</h4>
+      <ul class="categories" v-for="(category, index) in activeStore.categories"  :key="index">
+        <li
+            @click="selectedCategoryId = (category.id !== selectedCategoryId ? category.id : null)"
+            class="category"
+            :class="{'active': selectedCategoryId === category.id}">
+          {{ category.name }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -22,6 +30,11 @@ export default {
   computed: {
     ...mapGetters(['activeStore'])
   },
+  data () {
+    return {
+      selectedCategoryId: null
+    }
+  }
 }
 </script>
 
@@ -37,6 +50,28 @@ export default {
   justify-content: center;
   i {
     margin-right: 1.5rem;
+  }
+}
+
+.categories {
+  text-align: left;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  overflow: scroll;
+  .category {
+    white-space: nowrap;
+    padding: .5rem .8rem;
+    border-radius: 100px;
+    margin-right: 1em;
+    font-size: .7em;
+    background-color: #F2F2F2;
+    color: #CFCFCF;
+    &.active {
+      background-color: #E6F1FF;
+      color: #84BCFF;
+    }
   }
 }
 </style>

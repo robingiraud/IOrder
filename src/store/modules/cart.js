@@ -2,21 +2,34 @@
 
 const state = {
     isOpen: false,
-    products: []
+    items: []
 }
 
 const getters = {
+    cartItems: state => state.items
 }
 
 const actions = {
-    MY_ACTION: ({commit, dispatch}, data) => {
-        console.log('MY ACTION', commit, dispatch, data)
+    addCartItem ({ commit }, cartItem) {
+        commit('ADD_CART_ITEMS', cartItem)
+    },
+    removeCartItem ({ commit }, itemId) {
+        commit('REMOVE_CART_ITEMS', itemId)
+    },
+    removeAllCartItems ({ commit }) {
+        commit('EMPTY_CART')
     }
 }
 
 const mutations = {
-    MY_MUTATION: (state) => {
-        console.log(state)
+    ADD_CART_ITEMS (state, payload) {
+        state.items.push(payload)
+    },
+    REMOVE_CART_ITEMS (state, itemId) {
+        state.items.splice(state.items.findIndex(item => itemId === item.id))
+    },
+    EMPTY_CART (state) {
+        state.items = []
     }
 }
 

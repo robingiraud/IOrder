@@ -21,7 +21,7 @@ Vue.config.productionTip = false
 
 axios.defaults.baseURL = 'https://iorder-api.herokuapp.com'
 
-const token = localStorage.getItem('user-token')
+const token = localStorage.getItem('userToken')
 if (token) {
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 }
