@@ -6,8 +6,11 @@
       <div class="button" @click="$store.dispatch('openScanPage')"><i class="bx bx-search-alt" /> Démarrer le scan</div>
     </div>
     <div v-else>
-      <h3>Bienvenue dans l'établissement</h3>
-      <h1>"{{ activeStore.name }}"</h1>
+      <h5>
+        <img src="../../public/img/illustrations/pin.svg" alt="Pin icon">
+        Bienvenue chez...
+      </h5>
+      <h4>{{ activeStore.name }}</h4>
     </div>
   </div>
 </template>

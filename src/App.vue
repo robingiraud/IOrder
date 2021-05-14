@@ -54,6 +54,7 @@ export default {
     })
   }, */
   mounted() {
+    this.$store.dispatch('auth/CHECK_TOKEN')
     this.$store.dispatch('checkGeolocation')
   }
 }

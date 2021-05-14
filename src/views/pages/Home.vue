@@ -2,13 +2,15 @@
   <div class="home">
     <header>
       <h1>Trouve un établissement</h1>
-      <img src="../../../public/img/illustrations/location.svg" alt="Location icon">
+      <!--<img src="../../../public/img/illustrations/location.svg" alt="Location icon">-->
+      <lottie :options="defaultOptions2" :height="100" />
     </header>
     <p>Scanne le QR code de l’étalissement et envoie leurs directement ta commande !</p>
     <div class="scan-btn-container">
       <div class="ellipse1" @click="openScanPage">
         <div class="ellipse2">
           <img src="../../../public/img/illustrations/qr-icon.svg" alt="QR icon">
+          <!--<lottie :options="defaultOptions" :height="60" :width="60" />-->
         </div>
       </div>
     </div>
@@ -17,7 +19,7 @@
       Autour de moi
     </h3>
     <div class="stores" v-if="isAuthenticated">
-      <div v-for="(company, index) in companies" :key="index">
+      <div v-for="(company, index) in companies" :key="index" @click="openCompanyPage(company.id)">
         <div class="store">
           <img class="img-container" :src="company.img" alt="">
           <div class="store-info">
@@ -38,13 +40,21 @@
 // @ is an alias to /src
 import axios from "axios";
 import {mapGetters} from "vuex";
-
+import Lottie from 'vue-lottie';
+import * as animationData from '../../../public/img/animations/scan-check.json'
+import * as animationData2 from '../../../public/img/animations/store.json'
 export default {
   name: 'Home',
+  components: {
+    'lottie': Lottie
+  },
   data () {
     return {
       api_url: process.env.API_URL,
-      companies: []
+      companies: [],
+      defaultOptions: { animationData: animationData.default },
+      defaultOptions2: { animationData: animationData2.default },
+      animationSpeed: 1
     }
   },
   computed: {
@@ -60,6 +70,20 @@ export default {
       } else {
         this.$router.push('/login')
       }
+    },
+    openCompanyPage (id) {
+      axios.get( 'https://iorder-api.herokuapp.com/api/companies/' + id)
+          .then(response => {
+            if (!response.data) this.error = "Cet établissement n'éxiste pas !";
+            else {
+              this.$store.dispatch('setActiveStore', response.data)
+                this.$store.dispatch('closeScanPage')
+              if (this.$router.currentRoute !== 'store') {
+                this.$router.push({ path: '/store' })
+              }
+            }
+          })
+          .catch(e => console.error(e))
     }
   },
   mounted () {

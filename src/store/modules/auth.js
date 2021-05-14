@@ -13,6 +13,14 @@ const getters = {
 }
 
 const actions = {
+    CHECK_TOKEN: ({commit, dispatch}) => {
+        const userToken = localStorage.getItem('userToken')
+        if (userToken !== null) {
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + userToken
+            dispatch('USER_REQUEST')
+            commit('AUTH_SUCCESS', userToken)
+        }
+    },
     AUTH_REQUEST: ({commit, dispatch}, user) => {
         commit('AUTH_REQUEST')
         return axios.post('/api/auth/login', {
@@ -20,12 +28,13 @@ const actions = {
             password: user.password
         }).then(response => {
             const token = response.data.access_token
+            localStorage.setItem('userToken', token)
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
             commit('AUTH_SUCCESS', token)
             dispatch('USER_REQUEST')
         }).catch(err => {
             commit('AUTH_ERROR', err)
-            localStorage.removeItem('user-token')
+            localStorage.removeItem('userToken')
         })
     },
     AUTH_REGISTER: ({commit}, user) => {
@@ -37,19 +46,20 @@ const actions = {
             password_confirmation: user.password_confirm
         }).then(response => {
             const token = response.data.access_token
+            localStorage.setItem('userToken', token)
             const user = response.data.user
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
             commit('AUTH_SUCCESS', token)
             commit('USER_SUCCESS', user)
         }).catch(err => {
             commit('AUTH_ERROR', err)
-            localStorage.removeItem('user-token')
+            localStorage.removeItem('userToken')
         })
     },
     AUTH_LOGOUT: ({commit}) => {
         return axios.get('/api/auth/logout').then(() => {
             commit('AUTH_LOGOUT')
-            localStorage.removeItem('user-token')
+            localStorage.removeItem('userToken')
         })
     },
     USER_REQUEST: ({commit}) => {
