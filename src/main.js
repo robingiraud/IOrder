@@ -19,7 +19,7 @@ Vue.use(VueBottomSheet);
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = 'https://iorder-api.herokuapp.com'
+axios.defaults.baseURL = 'http://localhost:8000'
 
 const token = localStorage.getItem('userToken')
 if (token) {

@@ -72,7 +72,7 @@ export default {
       }
     },
     openCompanyPage (id) {
-      axios.get( 'https://iorder-api.herokuapp.com/api/companies/' + id)
+      axios.get( '/api/companies/' + id)
           .then(response => {
             if (!response.data) this.error = "Cet établissement n'éxiste pas !";
             else {

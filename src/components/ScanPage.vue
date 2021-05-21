@@ -31,7 +31,7 @@ export default {
   methods: {
     onDecode (decodedString) {
       console.log(decodedString)
-      axios.get( 'https://iorder-api.herokuapp.com/api/companies/' + JSON.parse(decodedString).id)
+      axios.get( '/api/companies/' + JSON.parse(decodedString).id)
           .then(response => {
             if (!response.data) this.error = "Cet établissement n'éxiste pas !";
             else {
