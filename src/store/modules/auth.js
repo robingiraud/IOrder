@@ -52,12 +52,15 @@ const actions = {
     AUTH_LOGOUT: ({commit}) => {
         return axios.get('/api/auth/logout').then(() => {
             commit('AUTH_LOGOUT')
+        }).finally(() => {
             localStorage.removeItem('userToken')
         })
     },
     USER_REQUEST: ({commit}) => {
         return axios.get('/api/auth/user').then(response => {
             commit('USER_SUCCESS', response.data)
+        }).catch(() => {
+            localStorage.removeItem('userToken')
         })
     }
 }

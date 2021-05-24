@@ -44,8 +44,10 @@ export default {
   },
   mounted() {
     if (localStorage.getItem('userToken') !== null) {
-      console.log(this.$store.dispatch('auth/USER_REQUEST'))
+      this.$store.dispatch('auth/USER_REQUEST')
     }
+
+    this.$store.dispatch('checkGeolocation')
   }
 }
 </script>

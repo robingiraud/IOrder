@@ -21,9 +21,15 @@
     <div class="stores" v-if="isAuthenticated">
       <div v-for="(company, index) in companies" :key="index" @click="openCompanyPage(company.id)">
         <div class="store">
-          <img class="img-container" :src="company.img" alt="">
+          <!--<img class="img-container" :src="company.img" alt="">-->
+          <img class="img-container" :src="'https://source.unsplash.com/1600x900/?' + company.keywords" alt="">
           <div class="store-info">
-            <p class="store-type"><span><i class="bx bx-restaurant" /> ITALIEN</span><b>à {{ company.meters }}m</b></p>
+            <p class="store-type">
+              <span>
+                <i class="bx bx-restaurant" />
+              </span>
+              <b>à {{ convertCoordinatesToMeters(geolocation.latitude, geolocation.longitude, company.latitude, company.longitude) }}</b>
+            </p>
             <h2>{{ company.name }}</h2>
             <p class="store-description">
               {{ company.description }}
@@ -84,6 +90,21 @@ export default {
             }
           })
           .catch(e => console.error(e))
+    },
+    convertCoordinatesToMeters (lat1, lon1, lat2, lon2) {
+      console.log(lat1, lon1,  lat2, lon2)
+      const R = 6378.137; // Radius of earth in KM
+      const dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+      const dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      const d = R * c;
+      if (d < 1) {
+        return parseInt(d*1000) + 'm'
+      }
+      return parseInt(d) + ' km'
     }
   },
   mounted () {

@@ -19,22 +19,6 @@ export default new Vuex.Store({
     activeStore: state => state.activeStore,
     geolocation: state => state.geolocation,
   },
-  mutations: {
-    openCartPage: (state) => state.isCartPageOpen = true,
-    closeCartPage: (state) => state.isCartPageOpen = false,
-    openScanPage: (state) => state.isScanPageOpen = true,
-    closeScanPage: (state) => state.isScanPageOpen = false,
-
-    setActiveStore: (state, newStore) => state.activeStore = newStore,
-    checkGeolocation: (state) => {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        state.geolocation = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        }
-      })
-    },
-  },
   actions: {
     openCartPage: (context) => context.commit('openCartPage'),
     closeCartPage: (context) => context.commit('closeCartPage'),
@@ -44,6 +28,24 @@ export default new Vuex.Store({
 
     setActiveStore: ({ commit}, payload) => commit('setActiveStore', payload),
     checkGeolocation: ({ commit}) => commit('checkGeolocation'),
+  },
+  mutations: {
+    openCartPage: (state) => state.isCartPageOpen = true,
+    closeCartPage: (state) => state.isCartPageOpen = false,
+    openScanPage: (state) => state.isScanPageOpen = true,
+    closeScanPage: (state) => state.isScanPageOpen = false,
+
+    setActiveStore: (state, newStore) => state.activeStore = newStore,
+    checkGeolocation: (state) => {
+      console.log('check geolocation')
+      navigator.geolocation.getCurrentPosition(function(position) {
+        console.log(position.coords)
+        state.geolocation = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        }
+      })
+    },
   },
   modules: {
     auth: auth,
