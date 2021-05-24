@@ -14,7 +14,7 @@
       <ul class="categories">
         <li
             v-for="(category, index) in activeStore.categories"  :key="index"
-            @click="selectedCategoryId = (category.id !== selectedCategoryId ? category.id : null)"
+            @click="selectedCategoryId = (category.id !== selectedCategoryId ? category.id : selectedCategoryId)"
             class="category"
             :class="{'active': selectedCategoryId === category.id}">
           {{ category.name }}
@@ -147,6 +147,7 @@ h4 {
   align-items: center;
   padding: .5rem .8rem;
   border-radius: 15px;
+  margin-bottom: .5rem;
 
   .img-container {
     border-radius: 20px;
