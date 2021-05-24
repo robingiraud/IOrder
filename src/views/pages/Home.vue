@@ -24,7 +24,7 @@
           <!--<img class="img-container" :src="company.img" alt="">-->
           <img class="img-container" :src="'https://source.unsplash.com/1600x900/?' + company.keywords" alt="">
           <div class="store-info">
-            <p class="store-type">
+            <p class="store-type" v-if="geolocation && company">
               <span>
                 <i class="bx bx-restaurant" />
               </span>
@@ -92,7 +92,6 @@ export default {
           .catch(e => console.error(e))
     },
     convertCoordinatesToMeters (lat1, lon1, lat2, lon2) {
-      console.log(lat1, lon1,  lat2, lon2)
       const R = 6378.137; // Radius of earth in KM
       const dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
       const dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
@@ -101,22 +100,15 @@ export default {
           Math.sin(dLon/2) * Math.sin(dLon/2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
       const d = R * c;
-      if (d < 1) {
-        return parseInt(d*1000) + 'm'
-      }
+
+      if (d < 1) return parseInt(d*1000) + 'm'
       return parseInt(d) + ' km'
     }
   },
   mounted () {
     axios.get( '/api/companies')
         .then(response => {
-          response.data.forEach(company => {
-            company.meters = (Math.random() * (800 - 30) + 30).toFixed(0)
-            company.img = company.meters%2 === 1 ? '/img/restaurant2.jpg' : '/img/restaurant.jpg'
-          })
-          this.companies = response.data.sort(function(a, b) {
-            return a.meters - b.meters;
-          })
+          this.companies = response.data
         })
         .catch(e => console.error(e))
   }
