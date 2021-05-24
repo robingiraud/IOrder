@@ -22,15 +22,15 @@
       </ul>
       <h5 class="title">La carte</h5>
       <ul class="products">
-        <li class="product">
-          <img class="img-container" src="../../public/img/burger.jpg" alt="Burger">
+        <li class="product" v-for="(product, index) in products" :key="index" v-show="selectedCategoryId === product.category_id">
+          <img class="img-container" :src="'https://source.unsplash.com/1600x900/?' + product.keywords">
           <div class="product-content">
             <div class="product-title">
-              <h4>Totololo</h4>
-              <p class="product-price">8,99 €</p>
+              <h4>{{ product.name }}</h4>
+              <p class="product-price">{{ product.price }} €</p>
             </div>
             <div class="product-description">
-              Graines de sésames, salade, tomates, oignons frits, steack haché 250g, cheddar, sauce burger
+              {{ product.description }}
             </div>
           </div>
           <div class="product-qty">
@@ -44,6 +44,7 @@
 
 <script>
 import {mapGetters} from "vuex";
+import axios from "axios";
 
 export default {
   computed: {
@@ -51,8 +52,23 @@ export default {
   },
   data () {
     return {
-      selectedCategoryId: null
+      selectedCategoryId: null,
+      products: []
     }
+  },
+  methods: {
+    fetchProducts () {
+      axios.get('/api/products', {
+        params: {
+          company_id: this.activeStore.id
+        }
+      }).then(response => {
+        this.products = response.data
+      })
+    }
+  },
+  mounted() {
+    this.fetchProducts()
   }
 }
 </script>
