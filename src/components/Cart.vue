@@ -1,19 +1,19 @@
 <template>
   <div id="cart">
     <header @click="$store.dispatch('closeCartPage')">
-      <h3 style="font-weight: normal">Mon panier (7)</h3>
+      <h3 style="font-weight: normal">Mon panier ({{ nbItems}})</h3>
     </header>
     <SwipeList :items="products" class="cart-content">
-      <template v-slot="props">
+      <template v-slot="product">
         <div class="cart-item">
-          <img class="img-container" src="../../public/img/burger.jpg" alt="Burger">
+          <img class="img-container" :src="'https://source.unsplash.com/1600x900/?' + product.item.keywords">
           <div class="product-content">
             <div class="product-title">
-              <h4>{{ props.item.title }}</h4>
-              <p class="product-price">8,99 €</p>
+              <h4>{{ product.item.name }}</h4>
+              <p class="product-price">{{ product.item.price }} €</p>
             </div>
             <div class="product-description">
-              Graines de sésames, salade, tomates, oignons frits, steack haché 250g, cheddar, sauce burger
+              {{ product.item.description }}
             </div>
           </div>
           <div class="product-qty">
@@ -21,9 +21,9 @@
           </div>
         </div>
       </template>
-      <template v-slot:right>
+      <template v-slot:right="product">
         <div class="swipeout-action red" title="remove">
-          <i class="bx bx-trash"></i>
+          <i @click="$store.dispatch('cart/removeCartItem', product.item.id)" class="bx bx-trash"></i>
         </div>
       </template>
     </SwipeList>
@@ -31,7 +31,7 @@
     <footer>
       Valider la commande
       <div class="dot" />
-      <b>33.80 €</b>
+      <b>{{ totalAmount }} €</b>
     </footer>
   </div>
 </template>
@@ -45,35 +45,15 @@ export default {
     SwipeList
   },
   computed: {
-    ...mapGetters(['isCartPageOpen', 'isScanPageOpen',])
+    ...mapGetters(['isCartPageOpen', 'isScanPageOpen']),
+    ...mapGetters({
+      products: 'cart/cartItems',
+      totalAmount: 'cart/totalAmount',
+      nbItems: 'cart/nbItems'
+    })
   },data() {
     return {
-      enabled: true,
-      products: [
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-        {title: "Some title"},
-      ]
+      enabled: true
     };
   },
   methods: {
@@ -119,6 +99,7 @@ export default {
 
       }
       .product-content {
+        width: 100%;
         padding: 0 1rem;
       }
       .product-title {

@@ -22,7 +22,12 @@
       </ul>
       <h5 class="title">La carte</h5>
       <ul class="products">
-        <li class="product" v-for="(product, index) in products" :key="index" v-show="selectedCategoryId === product.category_id">
+        <li
+            @click="$store.dispatch('cart/addCartItem', product)"
+            class="product"
+            v-for="(product, index) in products" :key="index"
+            v-show="selectedCategoryId === product.category_id"
+        >
           <img class="img-container" :src="'https://source.unsplash.com/1600x900/?' + product.keywords">
           <div class="product-content">
             <div class="product-title">
@@ -58,13 +63,15 @@ export default {
   },
   methods: {
     fetchProducts () {
-      axios.get('/api/products', {
-        params: {
-          company_id: this.activeStore.id
-        }
-      }).then(response => {
-        this.products = response.data
-      })
+      if (this.activeStore) {
+        axios.get('/api/products', {
+          params: {
+            company_id: this.activeStore.id
+          }
+        }).then(response => {
+          this.products = response.data
+        })
+      }
     }
   },
   mounted() {
@@ -159,6 +166,7 @@ h4 {
 
   }
   .product-content {
+    width: 100%;
     padding: 0 1rem;
   }
   .product-title {

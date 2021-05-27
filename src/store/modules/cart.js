@@ -6,7 +6,11 @@ const state = {
 }
 
 const getters = {
-    cartItems: state => state.items
+    cartItems: state => state.items,
+    totalAmount: state => state.items.map(i => i.price).reduce(function (prev, cur) {
+        return parseFloat(prev) + parseFloat(cur)
+    }, 0),
+    nbItems: state => state.items.length
 }
 
 const actions = {
@@ -26,7 +30,7 @@ const mutations = {
         state.items.push(payload)
     },
     REMOVE_CART_ITEMS (state, itemId) {
-        state.items.splice(state.items.findIndex(item => itemId === item.id))
+        state.items.splice(state.items.findIndex(item => itemId === item.id), 1)
     },
     EMPTY_CART (state) {
         state.items = []

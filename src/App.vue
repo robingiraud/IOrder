@@ -5,9 +5,9 @@
       <router-view class="router-view" />
     </div>
     <ScanPage />
-    <div class="cart-btn" @click="openCart" v-if="isAuthenticated">
+    <div v-if="isAuthenticated && nbItems > 0" class="cart-btn" @click="openCart">
       <i class="bx bxs-basket">
-        <span>3</span>
+        <span>{{ nbItems }}</span>
       </i>
     </div>
     <vue-bottom-sheet ref="cart" :rounded="true" effect="fx-default" max-height="70%" max-width="100%">
@@ -31,7 +31,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isAuthenticated: 'auth/isAuthenticated'
+      isAuthenticated: 'auth/isAuthenticated',
+      nbItems: 'cart/nbItems'
     })
   },
   methods: {
