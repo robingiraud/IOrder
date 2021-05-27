@@ -26,6 +26,14 @@ if (token) {
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 }
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./registerServiceWorker.js').then(function(reg) {
+    console.log('Successfully registered service worker', reg);
+  }).catch(function(err) {
+    console.warn('Error whilst registering service worker', err);
+  });
+}
+
 new Vue({
   router,
   store,
