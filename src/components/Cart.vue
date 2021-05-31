@@ -3,9 +3,9 @@
     <header @click="$store.dispatch('closeCartPage')">
       <h3 style="font-weight: normal">Mon panier ({{ nbItems}})</h3>
     </header>
-    <SwipeList :items="products" class="cart-content">
+    <SwipeList :items="products" class="cart-content" v-if="cartRender">
       <template v-slot="product">
-        <div class="cart-item">
+        <div class="cart-item" v-if="cartRender">
           <img class="img-container" :src="'https://source.unsplash.com/1600x900/?' + product.item.keywords">
           <div class="product-content">
             <div class="product-title">
@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="product-qty">
-            x2
+            <span @click="incQty(product.item.id)">x {{ product.item.qty }}</span>
           </div>
         </div>
       </template>
@@ -49,15 +49,25 @@ export default {
     ...mapGetters({
       products: 'cart/cartItems',
       totalAmount: 'cart/totalAmount',
-      nbItems: 'cart/nbItems'
+      nbItems: 'cart/nbItems',
+      cartRender: 'cart/render'
     })
-  },data() {
+  },
+  data() {
     return {
-      enabled: true
-    };
+      enabled: true,
+      render: true,
+    }
   },
   methods: {
-
+    refreshRender () {
+      this.render = false
+      this.render = true
+    },
+    incQty(id) {
+      this.$store.dispatch('cart/incQty', id)
+      this.refreshRender()
+    }
   },
 }
 </script>

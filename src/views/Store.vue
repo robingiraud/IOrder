@@ -38,9 +38,6 @@
               {{ product.description }}
             </div>
           </div>
-          <div class="product-qty">
-            x2
-          </div>
         </li>
       </ul>
     </div>
@@ -75,6 +72,7 @@ export default {
     }
   },
   mounted() {
+    if (this.activeStore) this.selectedCategoryId = this.activeStore.categories[0].id
     this.fetchProducts()
   }
 }
