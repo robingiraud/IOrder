@@ -5,6 +5,10 @@ import router from './router'
 import store from './store'
 import 'boxicons'
 import 'boxicons/css/boxicons.min.css'
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
+
+Vue.use(Buefy)
 
 import axios from "axios";
 Vue.use(axios)

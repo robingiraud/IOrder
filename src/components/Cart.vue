@@ -17,7 +17,9 @@
             </div>
           </div>
           <div class="product-qty">
-            <span @click="incQty(product.item.id)">x {{ product.item.qty }}</span>
+            <b-button size="is-small" rounded label="+" @click="incQty(product.item.id)" />
+            <span>{{ product.item.qty }}</span>
+            <b-button size="is-small" rounded label="-" @click="decQty(product.item.id)" />
           </div>
         </div>
       </template>
@@ -66,6 +68,10 @@ export default {
     },
     incQty(id) {
       this.$store.dispatch('cart/incQty', id)
+      this.refreshRender()
+    },
+    decQty(id) {
+      this.$store.dispatch('cart/decQty', id)
       this.refreshRender()
     }
   },
@@ -134,6 +140,13 @@ export default {
         font-weight: 100;
         font-size: .55em;
         color: darkgrey;
+      }
+      .product-qty {
+        display: flex;
+        flex-direction: column;
+        .button {
+          width: 30px;
+        }
       }
     }
     .swipeout-action {
