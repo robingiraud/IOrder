@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Navbar @click="$store.dispatch('closeCartPage')" />
-    <div @click="$store.dispatch('closeCartPage')">
+    <Navbar />
+    <div>
       <router-view class="router-view" />
     </div>
     <ScanPage />
@@ -11,7 +11,7 @@
       </i>
     </div>
     <vue-bottom-sheet ref="cart" :rounded="true" effect="fx-default" max-height="70%" max-width="100%">
-      <Cart />
+      <Cart @close="closeCart" @open="openCart"/>
     </vue-bottom-sheet>
   </div>
 </template>

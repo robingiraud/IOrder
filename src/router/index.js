@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import Login from '@/views/auth/Login.vue';
 import Home from '../views/pages/Home.vue'
 import Store from '../views/Store.vue'
-import Receipts from '../views/Receipts.vue'
+import OrdersPage from '@/views/pages/OrdersPage'
 import ProfilePage from '../views/pages/ProfilePage.vue'
 import Register from '@/views/auth/Register.vue';
 
@@ -35,7 +35,7 @@ const routes = [
   {
     path: '/receipts',
     name: 'Receipts',
-    component: Receipts,
+    component: OrdersPage,
     meta: { requiresLogin: true }
   },
   {

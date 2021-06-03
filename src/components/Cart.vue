@@ -1,7 +1,9 @@
 <template>
   <div id="cart">
-    <header @click="$store.dispatch('closeCartPage')">
-      <h3 style="font-weight: normal">Mon panier ({{ nbItems}})</h3>
+    <header>
+      <h3 style="font-weight: normal">
+        Mon panier {{ products.map(i => i.price*i.qty).reduce((prev, cur) => prev + cur, 0).toFixed(2) }} €
+      </h3>
     </header>
     <SwipeList :items="products" class="cart-content" v-if="cartRender">
       <template v-slot="product">
@@ -31,9 +33,7 @@
     </SwipeList>
 
     <footer>
-      Valider la commande
-      <div class="dot" />
-      <b>{{ products.map(i => i.price*i.qty).reduce((prev, cur) => prev + cur).toFixed(2) }} €</b>
+      <b-button :loading="loading" label="Valider la commande" @click="confirmOrder" />
     </footer>
   </div>
 </template>
@@ -47,16 +47,17 @@ export default {
     SwipeList
   },
   computed: {
-    ...mapGetters(['isCartPageOpen', 'isScanPageOpen']),
     ...mapGetters({
       products: 'cart/cartItems',
       totalAmount: 'cart/totalAmount',
       nbItems: 'cart/nbItems',
-      cartRender: 'cart/render'
+      cartRender: 'cart/render',
+      activeStore: 'activeStore'
     })
   },
   data() {
     return {
+      loading: false,
       enabled: true,
       render: true,
     }
@@ -73,6 +74,31 @@ export default {
     decQty(id) {
       this.$store.dispatch('cart/decQty', id)
       this.refreshRender()
+    },
+    confirmOrder () {
+      this.loading = true
+      const order = {
+        id: parseInt(Math.floor(Math.random() * 5000000) + 3000000),
+        status: 'En cours de préparation',
+        status_type: 'is-warning is-light',
+        company: {
+          id: this.activeStore.id,
+          name: this.activeStore.name
+        },
+        nbItems: this.nbItems,
+        total: this.products.map(i => i.price*i.qty).reduce((prev, cur) => prev + cur, 0).toFixed(2),
+        date: new Date()
+      }
+      setTimeout(() => {
+        this.loading = false
+        this.$store.dispatch('orders/addOrder', order)
+        this.$buefy.toast.open({
+          type: 'is-success',
+          message: 'Commande confirmée !'
+        })
+        this.$emit('close')
+        this.$store.dispatch('cart/removeAllCartItems')
+      }, 500)
     }
   },
 }
@@ -171,16 +197,14 @@ export default {
     width: 100%;
     box-sizing: border-box;
     height: 55px;
-    background-color: #84BCFF;
     z-index: 3;
     bottom: 0;
     color: white;
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50px;
-      margin: 0 1rem;
+    .button {
+      width: 100%;
+      height: 100%;
       background-color: #84BCFF;
+      color: white;
     }
   }
 }
