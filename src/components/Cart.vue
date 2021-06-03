@@ -33,7 +33,7 @@
     <footer>
       Valider la commande
       <div class="dot" />
-      <b>{{ totalAmount }} €</b>
+      <b>{{ products.map(i => i.price*i.qty).reduce((prev, cur) => prev + cur).toFixed(2) }} €</b>
     </footer>
   </div>
 </template>
