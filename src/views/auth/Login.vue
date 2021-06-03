@@ -4,10 +4,10 @@
       <h1>Connectez-vous</h1>
       <div style="display: flex; flex-direction: column">
         <span v-if="authStatus === 'error'">Ces identifiants n'existent pas!</span>
-        <input style="font-size: 1em; margin-top: .6rem" id="email" required v-model="email" type="email" placeholder="Email"/>
-        <input style="font-size: 1em; margin-top: .6rem" id="password" required v-model="password" type="password" placeholder="Mot de passe"/>
+        <b-input style="font-size: 1em; margin-top: .6rem" id="email" required v-model="email" type="email" placeholder="Email"/>
+        <b-input style="font-size: 1em; margin-top: .6rem" id="password" required v-model="password" type="password" placeholder="Mot de passe"/>
       </div>
-      <button style="margin-top: .6rem" type="submit">Connexion</button>
+      <b-button :loading="loading" style="margin-top: .6rem" type="submit" @click="login" rounded label="Connexion" />
       <div style="font-size: .6em; margin-top: .6rem">Vous n'êtes pas encore inscrit ? <u @click="$router.push('/register')">Créer un compte</u></div>
     </form>
   </div>
@@ -25,6 +25,7 @@ export default {
   },
   data () {
     return {
+      loading: false,
       email: '',
       password: '',
       error: '',
@@ -32,11 +33,14 @@ export default {
   },
   methods: {
     login: function () {
+      this.loading = true
       const { email, password } = this
       this.$store.dispatch('auth/AUTH_REQUEST', { email, password }).then(() => {
         if (this.authStatus !== 'error') {
           this.$router.push('/')
         }
+      }).finally(() => {
+        this.loading = false
       })
     }
   }

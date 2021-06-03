@@ -20,7 +20,7 @@
     </h3>
     <div class="stores" v-if="isAuthenticated">
       <div v-for="(company, index) in companies" :key="index" @click="openCompanyPage(company.id)">
-        <div class="store">
+        <div class="store" style="cursor:pointer;">
           <!--<img class="img-container" :src="company.img" alt="">-->
           <img class="img-container" :src="'https://source.unsplash.com/1600x900/?' + company.keywords" alt="">
           <div class="store-info">

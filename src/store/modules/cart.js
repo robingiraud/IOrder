@@ -8,7 +8,7 @@ const state = {
 
 const getters = {
     cartItems: state => state.items,
-    totalAmount: state => state.items.map(i => i.price).reduce(function (prev, cur) {
+    totalAmount: state => state.items.map(i => (i.price*i.qty)).reduce(function (prev, cur) {
         return parseFloat(prev) + parseFloat(cur)
     }, 0),
     nbItems: state => state.items.length,
@@ -51,7 +51,8 @@ const mutations = {
         state.items.find(i => i.id === itemId).qty++
     },
     DECREMENT_QTY (state, itemId) {
-        state.items.find(i => i.id === itemId).qty--
+        const item = state.items.find(i => i.id === itemId)
+        if (item.qty > 0) item.qty--
     },
     REMOVE_CART_ITEMS (state, itemId) {
         state.items.splice(state.items.findIndex(item => itemId === item.id), 1)

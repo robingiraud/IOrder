@@ -16,7 +16,9 @@
             v-for="(category, index) in activeStore.categories"  :key="index"
             @click="selectedCategoryId = (category.id !== selectedCategoryId ? category.id : selectedCategoryId)"
             class="category"
-            :class="{'active': selectedCategoryId === category.id}">
+            :class="{'active': selectedCategoryId === category.id}"
+            style="cursor:pointer;"
+        >
           {{ category.name }}
         </li>
       </ul>
@@ -27,6 +29,7 @@
             class="product"
             v-for="(product, index) in products" :key="index"
             v-show="selectedCategoryId === product.category_id"
+            style="cursor:pointer;"
         >
           <img class="img-container" :src="'https://source.unsplash.com/1600x900/?' + product.keywords">
           <div class="product-content">

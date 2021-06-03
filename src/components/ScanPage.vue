@@ -1,6 +1,6 @@
 <template>
   <div id="scan-page" :class="{'open': isScanPageOpen}" v-if="isScanPageOpen">
-    <header @click="$store.dispatch('closeScanPage'); error=''">
+    <header @click="$store.dispatch('closeScanPage'); error=''" style="cursor:pointer;">
       <i class="bx bx-chevron-left" style="font-size: 2.5em" />
       <h4 style="color: lightcoral; margin: 0" v-if="error">{{ error }}</h4>
       <h4 style="margin: 0" v-else>Scannez un code QR</h4>
